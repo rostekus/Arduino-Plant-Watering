@@ -3,6 +3,7 @@ public:
     virtual double read();
 }
 
+
 class MoistureSensor : Sensor{
 private:
     /*const int airValue = 616;   //replace the value with value when placed in air using calibration code
@@ -17,6 +18,25 @@ public:
     }
 };
 
+
+class LightSensor : Sensor{
+private:
+    int value_A0;
+    bool value_D7;
+public:
+    virtual double read() override{
+        value_A0 =analogRead(A0); // reads the analog input from the IR distance sensor
+        value_D7 = digitalRead(7);
+
+        /*Serial.println(value_A0);
+        Serial.println(value_D7);*/
+
+        return value_A0
+
+    }
+};
+
+
 void setup(void)
 {
     Serial.begin(9600);
@@ -26,5 +46,7 @@ void loop(void)
 {
     MoistureSensor moistureSensor = new MoistureSensor();
     Serial.println(moistureSensor->read());
+    LightSensor lightSensor = new LightSensor();
+    Serial.println(lightSensor->read());
     delay(100);
 }
