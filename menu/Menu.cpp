@@ -14,6 +14,12 @@ void Menu::mainMenu() {
   //TODO:
   //Apply date/hour in the first line
   lcd.print("Hi Plant Lover!\nPress R to play!");
+  char wait, sensor_id;  
+  wait = Serial.read();
+  lcd.print("Which sensor would you like to use.\n");//information which sensor has which id
+  sensor_id = Serial.read();
+  chooseSensor(sensor_id, wait);
+  //return wait;
   //TODO:
   //Wait for R and then:
   //chooseSensor(3, d);
