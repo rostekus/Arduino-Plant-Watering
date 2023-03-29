@@ -14,11 +14,20 @@ void Menu::mainMenu() {
   //TODO:
   //Apply date/hour in the first line
   lcd.print("Hi Plant Lover!\nPress R to play!");
-  char wait, sensor_id;  
-  wait = Serial.read();
-  lcd.print("Which sensor would you like to use.\n");//information which sensor has which id
-  sensor_id = Serial.read();
-  chooseSensor(sensor_id, wait);
+  char wait = Serial.read();
+  lcd.setCursor(0, 0);
+  
+  // char wait;  
+  // wait = Serial.read();
+  // if(wait != 'r') {
+  //   lcd.print("Press r to choose current sensor");
+  // }
+  
+  //lcd.print("Which sensor would you like to use.\n");//information which sensor has which id
+  // else {    
+  // chooseSensor(0, wait);
+  // }
+
   //return wait;
   //TODO:
   //Wait for R and then:
@@ -28,7 +37,7 @@ void Menu::mainMenu() {
 void Menu::chooseSensor(int sensor_id, char action) {
   switch(action) {
     case 'u': //up - see previous sensor
-      if(sensor_id == 0)
+      if(sensor_id == 0)//lcd.setCursor();
       lcd.print(sensors[3]);
       else
       lcd.print(sensors[sensor_id--]);
