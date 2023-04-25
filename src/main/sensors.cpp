@@ -11,3 +11,6 @@ double LightSensor::read(){
         return value_A0;
 
 }
+double TempSensor::read(){
+  return 0.0;
+}

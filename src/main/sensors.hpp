@@ -23,5 +23,12 @@ public:
     virtual double read();
 };
 
+class TempSensor: Sensor{
+
+//TODO
+public:
+    virtual double read();
+};
+
 
 #endif 
