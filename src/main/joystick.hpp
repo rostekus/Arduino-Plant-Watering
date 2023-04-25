@@ -6,7 +6,7 @@
 class Joystick{
 
 private:
-  char last_state = 'l';
+  char last_state = 'n';
 public:
   char read_input();
 };
