@@ -14,7 +14,7 @@ char Joystick::read_input(){
     else if (x_value == 1023){ 
         return 'l';
     }
-    else if (x_value == 0 && last_state == 'u'){
+    else if (x_value == 0 ){
         return 'r';
     }
 
