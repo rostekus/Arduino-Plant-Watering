@@ -28,8 +28,8 @@ void Display::setCurrentScreen(char choice){
 }
 void Display::print(String str, short row) {
   // value can be 0 or 1
-  lcd.clear();
-  lcd.setCursor(0,row );
+  //lcd.clear();
+  lcd.setCursor(0,row);
   lcd.print(str);
   lcd.setCursor(0, row);
 }

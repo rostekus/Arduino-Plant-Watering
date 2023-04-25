@@ -23,8 +23,10 @@ int setValueForWaterPump(int minValue, int maxValue,String settingPrompt, int de
   }
   delay(100);
   String displayedSettingString = settingPrompt + String(value);
+  Serial.println(displayedSettingString);
+  display.print("Accept -> right", 1);
   display.print(displayedSettingString, 0);
-  display.print("To Accept move joystick to right", 1);
+
   }
 }
 
@@ -46,7 +48,8 @@ void setup() {
   // TODO
   //  SET up values for waterpump controller 
   display.init();
-  int minMoisture = setValueForWaterPump(0, 100, "Set min moisture: ");  
+  Serial.begin(9600);
+  int minMoisture = setValueForWaterPump(0, 100, "Set moist %: ");  
 }
 
 
