@@ -25,5 +25,11 @@ void Display::setCurrentScreen(char choice){
     if (choice == 'u' &&this->currentScreen >0 ){
     this->currentScreen--;
         }
-
+}
+void Display::print(String str, short row) {
+  // value can be 0 or 1
+  lcd.clear();
+  lcd.setCursor(0,row );
+  lcd.print(str);
+  lcd.setCursor(0, row);
 }
