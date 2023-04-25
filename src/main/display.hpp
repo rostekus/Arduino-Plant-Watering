@@ -1,7 +1,5 @@
 #ifndef DISPLAY_HPP
 #define DISPLAY_HPP
-
-
 #include <LiquidCrystal_I2C.h>
 const int numOfScreens = 4;
 
@@ -19,6 +17,7 @@ class Display{
     void printScreen();
     void init();
     void setCurrentScreen(char);
+    void print(String, short);
 
 };
 
