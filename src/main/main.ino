@@ -9,10 +9,9 @@ LightSensor lightSensor;
 Display display(&readSensors);
 Joystick joystick;
 TempSensor tempSensor;
-WaterPump waterPump;
 SDCardWriter writer;
-
-int setValueForWaterPump(int minValue, int maxValue,String settingPrompt, int defaultValue =0){
+WaterPumpController pumpController;
+short setValueForWaterPump(int minValue, int maxValue,String settingPrompt, int defaultValue =0){
   int value= defaultValue;
   char input = ' ';
   while(input != 'r'){
@@ -39,17 +38,20 @@ float readSensors(int sensorId){
     return tempSensor.read();
   }
   if(sensorId ==1){
-    // calcalute F from C
-    return tempSensor.read();
+    return (tempSensor.read()* 9/5) + 32;
   }
   if(sensorId ==2){
-    String tempStr = "Temp [C] " + String(tempSensor.read());
-    writer.writeString(tempStr);
-    String moistStr = "Moist [%] " + String(moistSensor.read());
-    writer.writeString(moistStr);
+    return moistSensor.read();
   }
   return 0.0;
   }
+
+void loggingFunc(float temp, float moist){
+    String tempStr = "Temp [C] " + String(temp);
+    writer.writeString(tempStr);
+    String moistStr = "Moist [%] " + String(moist);
+    writer.writeString(moistStr);
+}
 
 
 void setup() {
@@ -57,8 +59,11 @@ void setup() {
   //  SET up values for waterpump controller 
   display.init();
   Serial.begin(9600);
-  int minMoisture = setValueForWaterPump(0, 100, "Set moist %: ");  
+  short minMoisture = setValueForWaterPump(0, 100, "Set moist %: ");  
+  WaterPump* water_pump = new WaterPump();
+  WaterPumpController pumpController(water_pump, minMoisture);
 }
+
 
 
 
@@ -66,6 +71,8 @@ void setup() {
 void loop() {
   char choice = joystick.read_input();
   display.setCurrentScreen(choice);
+  pumpController.control_waterpump(tempSensor.read(), moistSensor.read());
+
 }
     
 

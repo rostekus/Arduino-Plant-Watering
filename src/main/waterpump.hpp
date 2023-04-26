@@ -13,14 +13,12 @@ class WaterPumpController{
  // and based on int temp and int moisture
  // should turn on the waterpump for a certain amount of time
  private:
-    int temp;
-    int moisture;
-    int light;
-    WaterPump waterpump;
+    short minMoist;
+    WaterPump* waterpump;
     public:
-     void control_waterpump(float temp, float moisture, float light);
-    WaterPumpController(WaterPump);
-
+    void control_waterpump(float temp, float moisture);
+    WaterPumpController(WaterPump* wp, short minMoist);
+    WaterPumpController(){};
 };
 
 
