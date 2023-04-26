@@ -12,7 +12,9 @@ void Display::printScreen() {
   lcd.clear();
   lcd.print(this->screens[this->currentScreen][0]);
   lcd.setCursor(0,1);
-  lcd.print(value);
+  if (currentScreen != 3){
+      lcd.print(value);
+  }
   lcd.print(this->screens[this->currentScreen][1]);
 }
 
@@ -25,6 +27,7 @@ void Display::setCurrentScreen(char choice){
     if (choice == 'u' &&this->currentScreen >0 ){
     this->currentScreen--;
         }
+    this->printScreen();
 }
 void Display::print(String str, short row) {
   // value can be 0 or 1
