@@ -2,6 +2,7 @@
 #include "display.hpp"
 #include "joystick.hpp"
 #include "waterpump.hpp" 
+#include "sdcard.hpp"
 
 MoistureSensor moistSensor;
 LightSensor lightSensor;
@@ -9,6 +10,7 @@ Display display(&readSensors);
 Joystick joystick;
 TempSensor tempSensor;
 WaterPump waterPump;
+SDCardWriter writer;
 
 int setValueForWaterPump(int minValue, int maxValue,String settingPrompt, int defaultValue =0){
   int value= defaultValue;
@@ -39,6 +41,12 @@ float readSensors(int sensorId){
   if(sensorId ==1){
     // calcalute F from C
     return tempSensor.read();
+  }
+  if(sensorId ==2){
+    String tempStr = "Temp [C] " + String(tempSensor.read());
+    writer.writeString(tempStr);
+    String moistStr = "Moist [%] " + String(moistSensor.read());
+    writer.writeString(moistStr);
   }
   return 0.0;
   }
