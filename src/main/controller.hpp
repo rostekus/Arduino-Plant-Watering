@@ -117,7 +117,7 @@ void menuLoop(){
       if(invokelogginFunc()) 
       display_.print("Saved",0);
       delay(500);
-      ;
+      
   }
   // pumpController_->control_waterpump(tempSensor_.read(), moistSensor_.read());
   delay(200);
