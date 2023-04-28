@@ -2,6 +2,9 @@
 #define SENSORS_HPP
 
 #include <Arduino.h>
+#include <OneWire.h>
+#include <DallasTemperature.h>
+
 #include "sensor.hpp"
 
 class MoistureSensor : Sensor{
@@ -15,14 +18,6 @@ private:
     int soilMoistureValue;
 public:
     virtual double read(); 
-};
-
-class LightSensor : Sensor{
-private:
-    int value_A0;
-    bool value_D7;
-public:
-    virtual double read();
 };
 
 class TempSensor: Sensor{

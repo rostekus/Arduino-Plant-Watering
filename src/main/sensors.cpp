@@ -1,4 +1,8 @@
 #include "sensors.hpp"
+
+OneWire oneWire(4);
+DallasTemperature sensors(&oneWire);
+
 double MoistureSensor::read() {
         soilMoistureValue = analogRead(A3);
         //soilMoisturePercent = map(soilMoistureValue, airValue, waterValue, 0, 100);
@@ -9,12 +13,7 @@ double MoistureSensor::read() {
         return soilMoisturePercent;
 }
 
-double LightSensor::read(){
-         value_A0 =analogRead(A0); 
-        value_D7 = digitalRead(7);
-        return value_A0;
-
-}
 double TempSensor::read(){
-  return 0.0;
+  sensors.requestTemperatures();
+  return sensors.getTempCByIndex(0);
 }
