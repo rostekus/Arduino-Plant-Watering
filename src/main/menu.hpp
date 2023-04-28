@@ -3,7 +3,7 @@
 
 const int numOfScreens = 4;
 
-String screens[numOfScreens][2] = {{"Temperature","C"}, {"Temperature","F"}, {"Moisture","%"}, {"SD CARD", "Write"} };
+String screens[numOfScreens][2] = {{"Temperature","C"}, {"Temperature","F"}, {"Moisture","%"}, {"SD CARD", "r -> to Write"} };
 
 
 #endif //MENU_HPP
