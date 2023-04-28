@@ -7,12 +7,14 @@ void WaterPump::turn_on_pump_for_n_seconds(int seconds){
 }
 
 void WaterPumpController::control_waterpump(float temp, float moisture){
-    if (moisture < minMoist) {
-        waterpump->turn_on_pump_for_n_seconds(60); // turning on pump for 1 min
+  pinMode(RELAY_PIN, INPUT);
+    if (moisture < this->minMoist) {
+      pinMode(RELAY_PIN, OUTPUT);
+        waterpump->turn_on_pump_for_n_seconds(3);
     }
 }
 
-WaterPumpController::WaterPumpController(WaterPump* wp, short minMoist) {
+WaterPumpController::WaterPumpController(WaterPump* wp, float minMoist) {
     this->waterpump = wp;
-    this -> minMoist = minMoist;
+    this->minMoist = minMoist;
 }
