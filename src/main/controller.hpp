@@ -37,12 +37,12 @@ public:
   }
 
   void setupWaterPump(){
-    float minMoisture = this->setValueForWaterPump(0, 100, "Set moist %: ");
+    float minMoisture = this->setValueByUser(0, 100, "Set moist %: ");
     WaterPump* water_pump = new WaterPump();
     pumpController_ = WaterPumpController(water_pump, minMoisture);
   }
 
-float setValueForWaterPump(int minValue, int maxValue,String settingPrompt, int defaultValue = 50){
+float setValueByUser(int minValue, int maxValue,String settingPrompt, int defaultValue = 50){
   float value = defaultValue;
   char input = ' ';
   while(input != 'r'){
@@ -57,9 +57,7 @@ float setValueForWaterPump(int minValue, int maxValue,String settingPrompt, int 
   String displayedSettingString = settingPrompt + String(value);
   display_.print("Accept -> right", 1);
   display_.print(displayedSettingString, 0);
-
   }
-
   return value;
 }
 
