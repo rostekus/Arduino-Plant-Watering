@@ -1,14 +1,15 @@
 #include "controller.hpp"
 
-Controller controller;
+Controller* controller;
 
 void setup() {
-  controller.setupWaterPump();
+  controller = new Controller();
+  controller->setupWaterPump();
 }
 
 void loop() {
 
-controller.menuLoop();
+controller->menuLoop();
 }
     
 
