@@ -5,14 +5,14 @@
 #include "sdcard.hpp"
 
 MoistureSensor moistSensor;
-LightSensor lightSensor;
 Display display(&readSensors);
 Joystick joystick;
 TempSensor tempSensor;
 SDCardWriter writer;
-WaterPumpController pumpController;
-short setValueForWaterPump(int minValue, int maxValue,String settingPrompt, int defaultValue =0){
-  int value= defaultValue;
+WaterPumpController* pumpController;
+
+float setValueForWaterPump(int minValue, int maxValue,String settingPrompt, int defaultValue = 50){
+  float value = defaultValue;
   char input = ' ';
   while(input != 'r'){
   input = joystick.read_input();
@@ -24,11 +24,12 @@ short setValueForWaterPump(int minValue, int maxValue,String settingPrompt, int 
   }
   delay(100);
   String displayedSettingString = settingPrompt + String(value);
-  Serial.println(displayedSettingString);
   display.print("Accept -> right", 1);
   display.print(displayedSettingString, 0);
 
   }
+
+  return value;
 }
 
 
@@ -53,26 +54,23 @@ void loggingFunc(float temp, float moist){
     writer.writeString(moistStr);
 }
 
-
 void setup() {
   // TODO
-  //  SET up values for waterpump controller 
+  //  SET up values for waterpump controller
   display.init();
   Serial.begin(9600);
-  short minMoisture = setValueForWaterPump(0, 100, "Set moist %: ");  
+  float minMoisture = setValueForWaterPump(0, 100, "Set moist %: "); 
   WaterPump* water_pump = new WaterPump();
-  WaterPumpController pumpController(water_pump, minMoisture);
+  pumpController = new WaterPumpController(water_pump, minMoisture);
+
 }
 
-
-
-
-
 void loop() {
+
   char choice = joystick.read_input();
   display.setCurrentScreen(choice);
-  pumpController.control_waterpump(tempSensor.read(), moistSensor.read());
-
+  pumpController->control_waterpump(tempSensor.read(), moistSensor.read());
+  delay(500);
 }
     
 
