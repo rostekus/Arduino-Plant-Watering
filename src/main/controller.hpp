@@ -61,7 +61,7 @@ float setValueByUser(int minValue, int maxValue, String settingPrompt, int step 
   return value;
 }
 
-void scrollScreen(){
+int scrollScreen(){
   char choice = joystick_.read_input();
   if (choice == 'd'){
     if(this->currentScreen<numOfScreens-1)
@@ -71,10 +71,11 @@ void scrollScreen(){
     if (choice == 'u' &&this->currentScreen >0 ){
     this->currentScreen--;
         }
+    return this-> currentScreen;
 }
 
-String getReading(){
-  switch (this->currentScreen)
+String getReading(int sceeenNum){
+  switch (sceeenNum)
   {
   case 0:
     return String(tempSensor_.read());
@@ -86,21 +87,44 @@ String getReading(){
     // return String(moistSensor_.read());
     break;
   case 3:
-    return "SD CARD";
+    return "";
+
   }
   return "";
 }
 
+void loggingToSDCard(){
+    // We dont want to log last screen
+    for(int i = 0; i< numOfScreens-1; i++){
+      String reading = this->getReading(i);
+      String row = screens[i][0] + reading + screens[i][1];
+      writer_.writeString(row);
+    }
+}
+
+bool invokelogginFunc(){
+ if(joystick_.read_input() == 'r'){
+      this->loggingToSDCard();
+      return true;
+    }
+  return false;
+}
 
 void menuLoop(){
   
-  this->scrollScreen();
-  String reading = this->getReading();
-  String firstRow = screens[currentScreen][0];
-  String secondRow = reading + screens[currentScreen][1];
+  int numScreen = this->scrollScreen();
+  String reading = this->getReading(numScreen);
+  String firstRow = screens[numScreen][0];
+  String secondRow = reading + screens[numScreen][1];
   display_.printDisplay(firstRow, secondRow);
+  if(numScreen == numOfScreens-1){
+      if(invokelogginFunc()) 
+      display_.print("Saved",0);
+      delay(500);
+      ;
+  }
   // pumpController_->control_waterpump(tempSensor_.read(), moistSensor_.read());
-  delay(500);
+  delay(200);
 }
 
 };
