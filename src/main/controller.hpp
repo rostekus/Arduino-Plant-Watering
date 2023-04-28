@@ -20,7 +20,7 @@ private:
   Joystick joystick_;
   TempSensor tempSensor_;
   SDCardWriter writer_;
-  WaterPumpController pumpController_;
+  WaterPumpController* pumpController_;
   int currentScreen = 0;
   
 public:
@@ -39,7 +39,7 @@ public:
   void setupWaterPump(){
     float minMoisture = this->setValueByUser(0, 100, "Set moist %: ");
     WaterPump* water_pump = new WaterPump();
-    pumpController_ = WaterPumpController(water_pump, minMoisture);
+    pumpController_ = new WaterPumpController(water_pump, minMoisture);
   }
 
 float setValueByUser(int minValue, int maxValue, String settingPrompt, int step =2 , int defaultValue = 50){
@@ -84,12 +84,8 @@ String getReading(int sceeenNum){
     return String(tempSensor_.read()* 9/5 + 32);
     break;
   case 2:
-    // return String(moistSensor_.read());
+    return String(moistSensor_.read());
     break;
-  case 3:
-    return "";
-
-  }
   return "";
 }
 
