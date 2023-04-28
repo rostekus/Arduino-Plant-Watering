@@ -62,7 +62,6 @@ void setup() {
   float minMoisture = setValueForWaterPump(0, 100, "Set moist %: "); 
   WaterPump* water_pump = new WaterPump();
   pumpController = new WaterPumpController(water_pump, minMoisture);
-
 }
 
 void loop() {
