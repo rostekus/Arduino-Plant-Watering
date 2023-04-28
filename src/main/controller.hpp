@@ -42,16 +42,16 @@ public:
     pumpController_ = WaterPumpController(water_pump, minMoisture);
   }
 
-float setValueByUser(int minValue, int maxValue,String settingPrompt, int defaultValue = 50){
+float setValueByUser(int minValue, int maxValue, String settingPrompt, int step =2 , int defaultValue = 50){
   float value = defaultValue;
   char input = ' ';
   while(input != 'r'){
   input = joystick_.read_input();
   if (input == 'u') {
-    value = min(value + 2, maxValue);
+    value = min(value + step, maxValue);
   }
   else if (input == 'd') {
-    value = max(value - 2, minValue);
+    value = max(value - step, minValue);
   }
   delay(100);
   String displayedSettingString = settingPrompt + String(value);
