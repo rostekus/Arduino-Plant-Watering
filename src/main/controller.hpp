@@ -86,6 +86,7 @@ String getReading(int sceeenNum){
   case 2:
     return String(moistSensor_.read());
     break;
+}
   return "";
 }
 
@@ -93,7 +94,7 @@ void loggingToSDCard(){
     // We dont want to log last screen
     for(int i = 0; i< numOfScreens-1; i++){
       String reading = this->getReading(i);
-      String row = screens[i][0] + reading + screens[i][1];
+      String row = screens[i][0] + " " + reading + " " + screens[i][1];
       writer_.writeString(row);
     }
 }
@@ -115,11 +116,11 @@ void menuLoop(){
   display_.printDisplay(firstRow, secondRow);
   if(numScreen == numOfScreens-1){
       if(invokelogginFunc()) 
-      display_.print("Saved",0);
+      display_.print("Saved  ",0);
       delay(500);
       
   }
-  // pumpController_->control_waterpump(tempSensor_.read(), moistSensor_.read());
+  pumpController_->control_waterpump(tempSensor_.read(), moistSensor_.read());
   delay(200);
 }
 
