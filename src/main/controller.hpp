@@ -40,7 +40,7 @@ public:
 
   void setupWaterPump(){
     int minMoisture = this->setValueByUser(0, 100, "Set moist %: ");
-    this->loggingPeriod = this->setValueByUser(1, 1000, "Set logging period apropimettly [m]: ", 5, 60);
+    this->loggingPeriod = this->setValueByUser(1, 1000, "Set logging period approximately [m]: ", 5, 60);
     WaterPump* water_pump = new WaterPump();
     pumpController_ = new WaterPumpController(water_pump, minMoisture);
   }
