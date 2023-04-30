@@ -22,7 +22,9 @@ private:
   SDCardWriter writer_;
   WaterPumpController* pumpController_;
   int currentScreen = 0;
-  
+  int loggingPeriod = 60;
+  long timePassedMilliseconds = 0;
+
 public:
   Controller()
 {
@@ -37,13 +39,14 @@ public:
   }
 
   void setupWaterPump(){
-    float minMoisture = this->setValueByUser(0, 100, "Set moist %: ");
+    int minMoisture = this->setValueByUser(0, 100, "Set moist %: ");
+    this->loggingPeriod = this->setValueByUser(1, 1000, "Set logging period apropimettly [m]: ", 5, 60);
     WaterPump* water_pump = new WaterPump();
     pumpController_ = new WaterPumpController(water_pump, minMoisture);
   }
 
-float setValueByUser(int minValue, int maxValue, String settingPrompt, int step =2 , int defaultValue = 50){
-  float value = defaultValue;
+int setValueByUser(int minValue, int maxValue, String settingPrompt, int step =2 , int defaultValue = 50){
+  int value = defaultValue;
   char input = ' ';
   while(input != 'r'){
   input = joystick_.read_input();
@@ -115,13 +118,19 @@ void menuLoop(){
   String secondRow = reading + screens[numScreen][1];
   display_.printDisplay(firstRow, secondRow);
   if(numScreen == numOfScreens-1){
-      if(invokelogginFunc()) 
+      if(invokelogginFunc() || timePassedMilliseconds > loggingPeriod*1000*60){
+        //log if time passed or user pressed right
+        // milliseconds in minute * seconds in minute * minutes
       display_.print("Saved  ",0);
       delay(500);
+      timePassedMilliseconds =0;
+      display_.clear();
       
+  }
   }
   pumpController_->control_waterpump(tempSensor_.read(), moistSensor_.read());
   delay(200);
+  timePassedMilliseconds += 200;
 }
 
 };
