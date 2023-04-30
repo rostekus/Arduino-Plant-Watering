@@ -12,6 +12,7 @@ class Display{
     void init();
     void printDisplay(String, String); 
     void print(String, short);
+    void clear();
 
 };
 
