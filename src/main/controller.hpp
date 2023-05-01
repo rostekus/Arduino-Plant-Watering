@@ -40,7 +40,8 @@ public:
 
   void setupWaterPump(){
     int minMoisture = this->setValueByUser(0, 100, "Set moist %: ");
-    this->loggingPeriod = this->setValueByUser(1, 1000, "Set logging period approximately [m]: ", 5, 60);
+    delay(200);
+    this->loggingPeriod = this->setValueByUser(1, 1000, "Set log t [m]: ", 5, 60);
     WaterPump* water_pump = new WaterPump();
     pumpController_ = new WaterPumpController(water_pump, minMoisture);
   }
@@ -112,6 +113,10 @@ bool invokelogginFunc(){
 
 void menuLoop(){
   
+  bool isPumpActivated = pumpController_->control_waterpump(tempSensor_.read(), moistSensor_.read());
+  if (isPumpActivated) {
+    display_.clear();
+  }
   int numScreen = this->scrollScreen();
   String reading = this->getReading(numScreen);
   String firstRow = screens[numScreen][0];
@@ -120,7 +125,7 @@ void menuLoop(){
   if(numScreen == numOfScreens-1){
       if(invokelogginFunc() || timePassedMilliseconds > loggingPeriod*1000*60){
         //log if time passed or user pressed right
-        // milliseconds in minute * seconds in minute * minutes
+        //milliseconds in minute * seconds in minute * minutes
       display_.print("Saved  ",0);
       delay(500);
       timePassedMilliseconds =0;
@@ -128,7 +133,7 @@ void menuLoop(){
       
   }
   }
-  pumpController_->control_waterpump(tempSensor_.read(), moistSensor_.read());
+
   delay(200);
   timePassedMilliseconds += 200;
 }

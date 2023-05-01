@@ -23,6 +23,6 @@ void Display::print(String str, short row) {
   lcd.setCursor(0, row);
 }
 
-void Display::clear(){
+void Display::clear() {
   lcd.clear();
 }
