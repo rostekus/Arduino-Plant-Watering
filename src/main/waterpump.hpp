@@ -16,7 +16,7 @@ class WaterPumpController{
     float minMoist;
     WaterPump* waterpump;
   public:
-    void control_waterpump(float temp, float moisture);
+    bool control_waterpump(float temp, float moisture);
     WaterPumpController(WaterPump* wp, float minMoist);
     WaterPumpController(){};
 };
