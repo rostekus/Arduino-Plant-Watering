@@ -57,7 +57,7 @@ int setValueByUser(int minValue, int maxValue, String settingPrompt, int step =2
   else if (input == 'd') {
     value = max(value - step, minValue);
   }
-  delay(100);
+  delay(300);
   if (value < 10){
     display_.clear();
   }
@@ -114,7 +114,6 @@ bool invokelogginFunc(){
 }
 
 void menuLoop(){
-  
   bool isPumpActivated = pumpController_->control_waterpump(tempSensor_.read(), moistSensor_.read());
   if (isPumpActivated) {
     display_.clear();
@@ -138,7 +137,7 @@ void menuLoop(){
   }
 
   delay(200);
-  timePassedMilliseconds += 200;
+  timePassedMilliseconds += 800;
 }
 
 };
