@@ -22,7 +22,7 @@ private:
   SDCardWriter writer_;
   WaterPumpController* pumpController_;
   int currentScreen = 0;
-  int loggingPeriod = 60;
+  long loggingPeriod = 60;
   long timePassedMilliseconds = 0;
 
 public:
@@ -41,7 +41,7 @@ public:
   void setupWaterPump(){
     int minMoisture = this->setValueByUser(0, 100, "Set moist %: ");
     delay(200);
-    this->loggingPeriod = this->setValueByUser(1, 1000, "Set log t [m]: ", 5, 60);
+    this->loggingPeriod = this->setValueByUser(1, 1000, "Set log [m]: ", 5, 60);
     WaterPump* water_pump = new WaterPump();
     pumpController_ = new WaterPumpController(water_pump, minMoisture);
   }
@@ -58,6 +58,9 @@ int setValueByUser(int minValue, int maxValue, String settingPrompt, int step =2
     value = max(value - step, minValue);
   }
   delay(100);
+  if (value < 10){
+    display_.clear();
+  }
   String displayedSettingString = settingPrompt + String(value);
   display_.print("Accept -> right", 1);
   display_.print(displayedSettingString, 0);
@@ -104,8 +107,7 @@ void loggingToSDCard(){
 }
 
 bool invokelogginFunc(){
- if(joystick_.read_input() == 'r'){
-      this->loggingToSDCard();
+ if(joystick_.read_input() == 'r') {
       return true;
     }
   return false;
@@ -123,10 +125,11 @@ void menuLoop(){
   String secondRow = reading + screens[numScreen][1];
   display_.printDisplay(firstRow, secondRow);
   if(numScreen == numOfScreens-1){
-      if(invokelogginFunc() || timePassedMilliseconds > loggingPeriod*1000*60){
+      if(invokelogginFunc() || timePassedMilliseconds > this->loggingPeriod*1000*60){
         //log if time passed or user pressed right
         //milliseconds in minute * seconds in minute * minutes
       display_.print("Saved  ",0);
+      this->loggingToSDCard();
       delay(500);
       timePassedMilliseconds =0;
       display_.clear();
